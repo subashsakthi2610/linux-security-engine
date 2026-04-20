@@ -28,4 +28,4 @@ RUN touch security_engine.log
 USER root
 
 # Default command
-CMD ["python", "linux_security.py"]
+CMD ["python", "linuc_security.py"]
