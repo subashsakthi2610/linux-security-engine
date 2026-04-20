@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linux-security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linux-security
+  template:
+    metadata:
+      labels:
+        app: linux-security
+    spec:
+      containers:
+      - name: linux-security
+        image: subashsakthi2610/linux-security:latest
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
