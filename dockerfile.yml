@@ -1,0 +1,31 @@
+# Use slim Python base
+FROM python:3.10-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install required OS packages (important for your script)
+RUN apt-get update && apt-get install -y \
+    iptables \
+    ufw \
+    sudo \
+    openssh-client \
+    net-tools \
+    iputils-ping \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy your Python file
+COPY . .
+
+# Install Python dependencies (if requirements.txt exists)
+RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
+
+# Ensure log file exists
+RUN touch security_engine.log
+
+# Run as root (required for firewall + system audit)
+USER root
+
+# Default command
+CMD ["python", "main.py"]
